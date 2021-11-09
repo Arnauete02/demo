@@ -14,7 +14,7 @@ public class File {
     @Id
     public UUID fileid;
 
-    public String contentType;
+    public String contenttype;
 
     @Lob
     @Type(type="org.hibernate.type.BinaryType")
