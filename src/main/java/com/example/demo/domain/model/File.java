@@ -2,16 +2,14 @@ package com.example.demo.domain.model;
 
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
 @Table(name = "file")
 public class File {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public UUID fileid;
 
     public String contenttype;

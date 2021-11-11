@@ -4,6 +4,8 @@ import com.example.demo.domain.model.File;
 import com.example.demo.domain.model.Movie;
 import com.example.demo.repository.FileRepository;
 import com.example.demo.repository.MovieRepository;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,10 +36,15 @@ public class FileController {
     }
 
     @GetMapping("/{id}")
-    public byte[] xd(@PathVariable UUID id){
-        File file = fileRepository.getById(id);
+    public ResponseEntity<byte[]> getFile(@PathVariable UUID id) {
+        File file = fileRepository.findById(id).orElse(null);
 
-        return file.data;
+        if (file == null) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.valueOf(file.contenttype))
+                .contentLength(file.data.length)
+                .body(file.data);
     }
 
 }
