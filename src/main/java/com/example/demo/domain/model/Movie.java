@@ -1,8 +1,6 @@
 package com.example.demo.domain.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,6 +8,7 @@ import java.util.UUID;
 @Table(name = "movie")
 public class Movie {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public UUID movieid;
 
     public String title;

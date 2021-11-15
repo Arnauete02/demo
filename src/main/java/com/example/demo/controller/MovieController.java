@@ -2,9 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.model.Movie;
 import com.example.demo.repository.MovieRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -12,14 +13,16 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MovieController {
 
-    private final MovieRepository movieRepository;
-    MovieController(MovieRepository movieRepository){
-        this.movieRepository = movieRepository;
-    }
+    @Autowired
+    private MovieRepository movieRepository;
 
     @GetMapping("/")
-    public List<Movie> talYCual(){
+    public List<Movie> findAllMovies(Neo4jProperties.Authentication authentication) {
         return movieRepository.findAll();
     }
 
+    @PostMapping("/")
+    public Movie createMovie(@RequestBody Movie movie, Authentication authentication) {
+        return movieRepository.save(movie);
+    }
 }

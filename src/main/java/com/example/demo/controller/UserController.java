@@ -13,10 +13,12 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired private UserRepository userRepository;
-    @Autowired private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
-    @PostMapping("/register")
+    @PostMapping(path = "/register")
     public String register(@RequestBody UserRegisterRequest userRegisterRequest) {
 
         if (userRepository.findByUsername(userRegisterRequest.username) == null) {
@@ -24,9 +26,13 @@ public class UserController {
             user.username = userRegisterRequest.username;
             user.password = passwordEncoder.encode(userRegisterRequest.password);
             user.enabled = true;
-            userRepository.save(user);
-            return "OK";   // TODO
+            return userRepository.save(user).userid.toString();
         }
-        return "ERROR";    // TODO
+        return "ERROR";
+    }
+
+    @GetMapping("/all")
+    public List<User> getALl() {
+        return userRepository.findAll();
     }
 }
